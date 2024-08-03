@@ -8,6 +8,11 @@ export default {
 		const url = new URL(request.url);
 		const cache = caches.default;
 
+		// robots.txtのハンドラ
+		if (request.url.endsWith('robots.txt')) {
+			return new Response('User-agent: *\nDisallow: /', { headers: { 'Content-Type': 'text/plain' } });
+		}
+
 		// キャッシュがあればそれを返す
 		const cachedData = await getCachedResponse(cache, url.href);
 		if (cachedData) {
